@@ -16,48 +16,48 @@ const SYMBOL_LIBRARY = [
   { id: 5, icon: 'fa-solid fa-ghost', name: '幽靈', color: '#8b5cf6' },
   { id: 6, icon: 'fa-solid fa-sun', name: '太陽', color: '#f59e0b' },
   { id: 7, icon: 'fa-solid fa-moon', name: '月亮', color: '#38bdf8' },
-  { id: 8, icon: 'fa-solid fa-cloud', name: '雲朵', color: '#64748b' },
-  { id: 9, icon: 'fa-solid fa-droplet', name: '水滴', color: '#0284c7' },
+  { id: 8, icon: 'fa-solid fa-cloud', name: '雲朵', color: '#38bdf8' },
+  { id: 9, icon: 'fa-solid fa-droplet', name: '水滴', color: '#0ea5e9' },
   { id: 10, icon: 'fa-solid fa-leaf', name: '樹葉', color: '#10b981' },
   { id: 11, icon: 'fa-solid fa-tree', name: '樹木', color: '#059669' },
   { id: 12, icon: 'fa-solid fa-apple-whole', name: '蘋果', color: '#dc2626' },
   { id: 13, icon: 'fa-solid fa-lemon', name: '檸檬', color: '#facc15' },
-  { id: 14, icon: 'fa-solid fa-pepper-hot', name: '辣椒', color: '#b91c1c' },
+  { id: 14, icon: 'fa-solid fa-pepper-hot', name: '辣椒', color: '#ef4444' },
   { id: 15, icon: 'fa-solid fa-pizza-slice', name: '披薩', color: '#ea580c' },
-  { id: 16, icon: 'fa-solid fa-burger', name: '漢堡', color: '#d97706' },
+  { id: 16, icon: 'fa-solid fa-burger', name: '漢堡', color: '#f59e0b' },
   { id: 17, icon: 'fa-solid fa-cake-candles', name: '蛋糕', color: '#ec4899' },
   { id: 18, icon: 'fa-solid fa-ice-cream', name: '冰淇淋', color: '#f43f5e' },
-  { id: 19, icon: 'fa-solid fa-mug-hot', name: '熱咖啡', color: '#78350f' },
-  { id: 20, icon: 'fa-solid fa-cat', name: '貓咪', color: '#f97316' },
-  { id: 21, icon: 'fa-solid fa-dog', name: '狗狗', color: '#b45309' },
-  { id: 22, icon: 'fa-solid fa-fish', name: '魚兒', color: '#0ea5e9' },
-  { id: 23, icon: 'fa-solid fa-crow', name: '烏鴉', color: '#334155' },
+  { id: 19, icon: 'fa-solid fa-mug-hot', name: '熱咖啡', color: '#d97706' },
+  { id: 20, icon: 'fa-solid fa-cat', name: '貓咪', color: '#fb923c' },
+  { id: 21, icon: 'fa-solid fa-dog', name: '狗狗', color: '#f97316' },
+  { id: 22, icon: 'fa-solid fa-fish', name: '魚兒', color: '#06b6d4' },
+  { id: 23, icon: 'fa-solid fa-crow', name: '烏鴉', color: '#94a3b8' },
   { id: 24, icon: 'fa-solid fa-frog', name: '青蛙', color: '#22c55e' },
-  { id: 25, icon: 'fa-solid fa-spider', name: '蜘蛛', color: '#475569' },
-  { id: 26, icon: 'fa-solid fa-dragon', name: '神龍', color: '#7c3aed' },
-  { id: 27, icon: 'fa-solid fa-shield-halved', name: '盾牌', color: '#2563eb' },
-  { id: 28, icon: 'fa-solid fa-crown', name: '皇冠', color: '#eab308' },
-  { id: 29, icon: 'fa-solid fa-key', name: '鑰匙', color: '#ca8a04' },
+  { id: 25, icon: 'fa-solid fa-spider', name: '蜘蛛', color: '#a855f7' },
+  { id: 26, icon: 'fa-solid fa-dragon', name: '神龍', color: '#8b5cf6' },
+  { id: 27, icon: 'fa-solid fa-shield-halved', name: '盾牌', color: '#3b82f6' },
+  { id: 28, icon: 'fa-solid fa-crown', name: '皇冠', color: '#fbbf24' },
+  { id: 29, icon: 'fa-solid fa-key', name: '鑰匙', color: '#eab308' },
   { id: 30, icon: 'fa-solid fa-bell', name: '鈴鐺', color: '#f59e0b' },
-  { id: 31, icon: 'fa-solid fa-anchor', name: '船錨', color: '#0369a1' },
-  { id: 32, icon: 'fa-solid fa-bomb', name: '炸彈', color: '#1e293b' },
-  { id: 33, icon: 'fa-solid fa-skull', name: '骷髏', color: '#64748b' },
+  { id: 31, icon: 'fa-solid fa-anchor', name: '船錨', color: '#0284c7' },
+  { id: 32, icon: 'fa-solid fa-bomb', name: '炸彈', color: '#f43f5e' },
+  { id: 33, icon: 'fa-solid fa-skull', name: '骷髏', color: '#f1f5f9' },
   { id: 34, icon: 'fa-solid fa-umbrella', name: '雨傘', color: '#06b6d4' },
   { id: 35, icon: 'fa-solid fa-car', name: '汽車', color: '#ef4444' },
-  { id: 36, icon: 'fa-solid fa-plane', name: '飛機', color: '#0284c7' },
+  { id: 36, icon: 'fa-solid fa-plane', name: '飛機', color: '#38bdf8' },
   { id: 37, icon: 'fa-solid fa-rocket', name: '火箭', color: '#f43f5e' },
   { id: 38, icon: 'fa-solid fa-bicycle', name: '自行車', color: '#10b981' },
-  { id: 39, icon: 'fa-solid fa-guitar', name: '吉他', color: '#b45309' },
-  { id: 40, icon: 'fa-solid fa-music', name: '音符', color: '#8b5cf6' },
-  { id: 41, icon: 'fa-solid fa-camera', name: '相機', color: '#475569' },
-  { id: 42, icon: 'fa-solid fa-gamepad', name: '遊戲手把', color: '#6366f1' },
-  { id: 43, icon: 'fa-solid fa-futbol', name: '足球', color: '#0f172a' },
-  { id: 44, icon: 'fa-solid fa-basketball', name: '籃球', color: '#ea580c' },
-  { id: 45, icon: 'fa-solid fa-trophy', name: '獎盃', color: '#eab308' },
-  { id: 46, icon: 'fa-solid fa-medal', name: '獎牌', color: '#ca8a04' },
-  { id: 47, icon: 'fa-solid fa-magnet', name: '磁鐵', color: '#dc2626' },
-  { id: 48, icon: 'fa-solid fa-lightbulb', name: '燈泡', color: '#facc15' },
-  { id: 49, icon: 'fa-solid fa-glasses', name: '眼鏡', color: '#334155' },
+  { id: 39, icon: 'fa-solid fa-guitar', name: '吉他', color: '#ea580c' },
+  { id: 40, icon: 'fa-solid fa-music', name: '音符', color: '#a855f7' },
+  { id: 41, icon: 'fa-solid fa-camera', name: '相機', color: '#0ea5e9' },
+  { id: 42, icon: 'fa-solid fa-gamepad', name: '遊戲手把', color: '#818cf8' },
+  { id: 43, icon: 'fa-solid fa-futbol', name: '足球', color: '#f8fafc' },
+  { id: 44, icon: 'fa-solid fa-basketball', name: '籃球', color: '#f97316' },
+  { id: 45, icon: 'fa-solid fa-trophy', name: '獎盃', color: '#facc15' },
+  { id: 46, icon: 'fa-solid fa-medal', name: '獎牌', color: '#eab308' },
+  { id: 47, icon: 'fa-solid fa-magnet', name: '磁鐵', color: '#ef4444' },
+  { id: 48, icon: 'fa-solid fa-lightbulb', name: '燈泡', color: '#fde047' },
+  { id: 49, icon: 'fa-solid fa-glasses', name: '眼鏡', color: '#06b6d4' },
   { id: 50, icon: 'fa-solid fa-scissors', name: '剪刀', color: '#e11d48' },
   { id: 51, icon: 'fa-solid fa-lock', name: '鎖頭', color: '#d97706' },
   { id: 52, icon: 'fa-solid fa-eye', name: '眼睛', color: '#0284c7' },
@@ -466,6 +466,10 @@ class DobbleGame {
     this.versusP1Card = [];
     this.versusP2Card = [];
 
+    // 動畫過渡與提示計時器
+    this.isTransitioning = false;
+    this.feedbackTimer = null;
+
     // DOM 元素快取
     this.cacheDom();
     this.applyTheme(this.currentTheme);
@@ -645,6 +649,8 @@ class DobbleGame {
   // ========================================================================
   startNewGame() {
     clearInterval(this.timerInterval);
+    clearTimeout(this.feedbackTimer);
+    this.isTransitioning = false;
     this.gameOverModal.classList.add('hidden');
 
     // 產生牌庫
@@ -915,9 +921,10 @@ class DobbleGame {
   // 點擊判定回饋
   // ========================================================================
   handleSoloSymbolClick(clickedId, element) {
-    if (!this.isPlaying) return;
+    if (!this.isPlaying || this.isTransitioning) return;
 
     if (clickedId === this.commonSymbolId) {
+      this.isTransitioning = true;
       this.combo++;
       if (this.combo > this.maxCombo) this.maxCombo = this.combo;
       this.hits++;
@@ -928,9 +935,17 @@ class DobbleGame {
       this.comboValueEl.textContent = `${this.combo}x`;
 
       const symData = SYMBOL_LIBRARY[clickedId % SYMBOL_LIBRARY.length];
-      this.setFeedback(`<i class="fa-solid fa-circle-check"></i> 太棒了！找到【${symData.name}】！+${earned}分！`, 'success');
+      this.setFeedback(`<i class="fa-solid fa-circle-check"></i> 太棒了！找到【${symData.name}】！+${earned}分！`, 'success', 1.6);
 
       this.sound.playCorrect(this.combo);
+
+      // 圈起動畫：玩家牌圖示與牌庫公共牌圖示同時圈起
+      element.classList.add('symbol-circled');
+      const targetMatchEl = this.cardTarget.querySelector(`.symbol-item[data-symbol-id="${clickedId}"]`);
+      if (targetMatchEl) {
+        targetMatchEl.classList.add('symbol-circled');
+      }
+
       this.cardPlayer.classList.add('card-success');
       setTimeout(() => this.cardPlayer.classList.remove('card-success'), 450);
 
@@ -943,11 +958,17 @@ class DobbleGame {
         this.timerValueEl.textContent = `${this.clearTargetTotal}張`;
         if (this.clearTargetTotal <= 0) {
           this.endGame('恭喜！所有卡牌闖關完成！');
+          this.isTransitioning = false;
           return;
         }
       }
 
-      this.dealNextSoloPair();
+      // 等待 450ms 圈起動畫讓玩家看清配對後，再流暢進入下一手牌
+      setTimeout(() => {
+        this.dealNextSoloPair();
+        this.isTransitioning = false;
+      }, 450);
+
     } else {
       this.combo = 0;
       this.comboValueEl.textContent = '0x';
@@ -959,29 +980,38 @@ class DobbleGame {
       if (this.gameMode === 'timed') {
         this.timeLeft = Math.max(0, this.timeLeft - 2);
         this.timerValueEl.textContent = `${this.timeLeft}s`;
-        this.setFeedback('<i class="fa-solid fa-circle-xmark"></i> 選錯了！扣除 2 秒，連擊歸零！', 'error');
+        this.setFeedback('<i class="fa-solid fa-circle-xmark"></i> 選錯了！扣除 2 秒，連擊歸零！', 'error', 1.6);
       } else {
-        this.setFeedback('<i class="fa-solid fa-circle-xmark"></i> 不是這個圖案喔，再仔細看看！', 'error');
+        this.setFeedback('<i class="fa-solid fa-circle-xmark"></i> 不是這個圖案喔，再仔細看看！', 'error', 1.6);
       }
     }
   }
 
   // 雙人對戰點擊判定
   handleVersusClick(playerNum, clickedId, element) {
-    if (!this.isPlaying) return;
+    if (!this.isPlaying || this.isTransitioning) return;
 
     const targetCommon = (playerNum === 1) ? this.p1CommonId : this.p2CommonId;
 
     if (clickedId === targetCommon) {
+      this.isTransitioning = true;
       this.sound.playCorrect(3);
+
+      // 圈起動畫：玩家牌圖示與中央公共牌圖示同時圈起
+      element.classList.add('symbol-circled');
+      const centerMatchEl = this.cardVersusCenter.querySelector(`.symbol-item[data-symbol-id="${clickedId}"]`);
+      if (centerMatchEl) {
+        centerMatchEl.classList.add('symbol-circled');
+      }
+
       if (playerNum === 1) {
         this.p1Score++;
         this.p1ScoreEl.textContent = this.p1Score;
-        this.setFeedback('<i class="fa-solid fa-bolt"></i> 玩家 1 (藍隊) 率先配對成功，得 1 分！', 'success');
+        this.setFeedback('<i class="fa-solid fa-bolt"></i> 玩家 1 (藍隊) 率先配對成功，得 1 分！', 'success', 1.6);
       } else {
         this.p2Score++;
         this.p2ScoreEl.textContent = this.p2Score;
-        this.setFeedback('<i class="fa-solid fa-fire"></i> 玩家 2 (紅隊) 率先配對成功，得 1 分！', 'success');
+        this.setFeedback('<i class="fa-solid fa-fire"></i> 玩家 2 (紅隊) 率先配對成功，得 1 分！', 'success', 1.6);
       }
 
       this.confetti.launch(40);
@@ -989,21 +1019,34 @@ class DobbleGame {
       if (this.p1Score >= this.versusTargetScore || this.p2Score >= this.versusTargetScore) {
         const winner = this.p1Score >= this.versusTargetScore ? '玩家 1 (藍隊)' : '玩家 2 (紅隊)';
         this.endGame(`雙人對戰結束！恭喜【${winner}】贏得勝利！`);
+        this.isTransitioning = false;
         return;
       }
 
-      this.dealVersusCards();
+      setTimeout(() => {
+        this.dealVersusCards();
+        this.isTransitioning = false;
+      }, 450);
+
     } else {
       this.sound.playWrong();
       element.parentElement.classList.add('card-shake');
       setTimeout(() => element.parentElement.classList.remove('card-shake'), 400);
-      this.setFeedback(`<i class="fa-solid fa-circle-xmark"></i> 玩家 ${playerNum} 點錯圖示囉！再接再厲！`, 'error');
+      this.setFeedback(`<i class="fa-solid fa-circle-xmark"></i> 玩家 ${playerNum} 點錯圖示囉！再接再厲！`, 'error', 1.6);
     }
   }
 
-  setFeedback(htmlMsg, type = 'default') {
+  setFeedback(htmlMsg, type = 'default', autoClearSeconds = 1.6) {
+    clearTimeout(this.feedbackTimer);
     this.feedbackText.innerHTML = htmlMsg;
     this.feedbackBanner.className = `feedback-banner ${type}`;
+
+    if (type === 'success' || type === 'error') {
+      this.feedbackTimer = setTimeout(() => {
+        this.feedbackText.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> 請在兩張卡牌中找出唯一的共通圖案並點擊它！';
+        this.feedbackBanner.className = 'feedback-banner default';
+      }, autoClearSeconds * 1000);
+    }
   }
 
   // ========================================================================

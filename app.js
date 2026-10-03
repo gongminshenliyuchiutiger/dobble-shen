@@ -1,5 +1,5 @@
 /**
- * DobbleShen - 哆寶反應力尋寶大對決
+ * DobbleShen - 塔寶神反應力尋寶系統
  * 遊戲主邏輯、有限射影平面生成演算法、音效合成引擎、粒子系統、吉祥物拖曳控制、明暗雙模式
  * 版權宣告：Copyright © Liyuchiutiger Gongminshen
  */

@@ -56,96 +56,97 @@
       </div>
     </header>
 
-    <!-- 控制面板：難度與模式選擇 -->
-    <section class="control-panel">
-      <!-- 遊戲模式切換 -->
-      <div class="setting-group">
-        <span class="group-label"><i class="fa-solid fa-gamepad"></i> 遊戲模式：</span>
-        <div class="toggle-buttons" id="mode-selector">
-          <button class="btn-toggle active" data-mode="timed">
-            <i class="fa-solid fa-stopwatch"></i> 60秒計時挑戰
-          </button>
-          <button class="btn-toggle" data-mode="clear">
-            <i class="fa-solid fa-layer-group"></i> 牌庫闖關 (20張)
-          </button>
-          <button class="btn-toggle" data-mode="zen">
-            <i class="fa-solid fa-infinity"></i> 無盡練習
-          </button>
-          <button class="btn-toggle" data-mode="versus">
-            <i class="fa-solid fa-user-ninja"></i> 雙人同機對戰
-          </button>
+    <!-- 整合控制與狀態儀表列 (整併成一排) -->
+    <section class="game-dashboard-bar" id="game-dashboard-bar">
+      <!-- 左側：遊戲模式與難度控制 -->
+      <div class="dashboard-controls">
+        <div class="setting-group">
+          <span class="group-label"><i class="fa-solid fa-gamepad"></i> 模式：</span>
+          <div class="toggle-buttons" id="mode-selector">
+            <button class="btn-toggle active" data-mode="timed" title="60秒計時挑戰">
+              <i class="fa-solid fa-stopwatch"></i> 60秒
+            </button>
+            <button class="btn-toggle" data-mode="clear" title="牌庫闖關 (20張)">
+              <i class="fa-solid fa-layer-group"></i> 20張闖關
+            </button>
+            <button class="btn-toggle" data-mode="zen" title="無盡練習">
+              <i class="fa-solid fa-infinity"></i> 無盡
+            </button>
+            <button class="btn-toggle" data-mode="versus" title="雙人同機對戰">
+              <i class="fa-solid fa-user-ninja"></i> 雙人對戰
+            </button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <span class="group-label"><i class="fa-solid fa-layer-group"></i> 圖示數：</span>
+          <div class="toggle-buttons" id="difficulty-selector">
+            <button class="btn-toggle" data-order="3" title="初級 (每張4圖)">
+              <i class="fa-solid fa-seedling"></i> 4圖
+            </button>
+            <button class="btn-toggle" data-order="5" title="中級 (每張6圖)">
+              <i class="fa-solid fa-fire-flame-curved"></i> 6圖
+            </button>
+            <button class="btn-toggle active" data-order="7" title="經典 (每張8圖)">
+              <i class="fa-solid fa-crown"></i> 8圖
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- 難度切換（決定卡牌符號數量） -->
-      <div class="setting-group">
-        <span class="group-label"><i class="fa-solid fa-layer-group"></i> 卡牌圖示數：</span>
-        <div class="toggle-buttons" id="difficulty-selector">
-          <button class="btn-toggle" data-order="3">
-            <i class="fa-solid fa-seedling"></i> 初級 (每張4圖)
-          </button>
-          <button class="btn-toggle" data-order="5">
-            <i class="fa-solid fa-fire-flame-curved"></i> 中級 (每張6圖)
-          </button>
-          <button class="btn-toggle active" data-order="7">
-            <i class="fa-solid fa-crown"></i> 經典 (每張8圖)
-          </button>
+      <!-- 右側：單人數據指標 (緊湊橫排) -->
+      <div class="dashboard-stats" id="solo-scoreboard">
+        <div class="stat-pill">
+          <div class="stat-pill-icon trophy-bg"><i class="fa-solid fa-trophy"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label">得分</span>
+            <span class="stat-pill-value" id="current-score">0</span>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- 遊戲資訊儀表板 (單人模式) -->
-    <section class="scoreboard" id="solo-scoreboard">
-      <div class="score-card">
-        <div class="score-icon"><i class="fa-solid fa-trophy"></i></div>
-        <div class="score-meta">
-          <span class="score-label">目前得分</span>
-          <span class="score-value" id="current-score">0</span>
+        <div class="stat-pill" id="timer-box">
+          <div class="stat-pill-icon timer-bg"><i class="fa-solid fa-clock"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label" id="timer-label">時間</span>
+            <span class="stat-pill-value" id="timer-value">60s</span>
+          </div>
         </div>
-      </div>
 
-      <div class="score-card" id="timer-box">
-        <div class="score-icon"><i class="fa-solid fa-clock"></i></div>
-        <div class="score-meta">
-          <span class="score-label" id="timer-label">剩餘時間</span>
-          <span class="score-value" id="timer-value">60s</span>
+        <div class="stat-pill">
+          <div class="stat-pill-icon combo-bg"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label">連擊</span>
+            <span class="stat-pill-value" id="combo-value">0x</span>
+          </div>
         </div>
-      </div>
 
-      <div class="score-card">
-        <div class="score-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
-        <div class="score-meta">
-          <span class="score-label">連擊 (Combo)</span>
-          <span class="score-value" id="combo-value">0x</span>
+        <div class="stat-pill">
+          <div class="stat-pill-icon medal-bg"><i class="fa-solid fa-medal"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label">最高</span>
+            <span class="stat-pill-value" id="best-score">0</span>
+          </div>
         </div>
       </div>
 
-      <div class="score-card">
-        <div class="score-icon"><i class="fa-solid fa-medal"></i></div>
-        <div class="score-meta">
-          <span class="score-label">最高紀錄</span>
-          <span class="score-value" id="best-score">0</span>
+      <!-- 雙人對戰資訊 (雙人模式專用，整併在同一排) -->
+      <div class="dashboard-stats versus-stats hidden" id="versus-scoreboard">
+        <div class="stat-pill p1-pill">
+          <div class="stat-pill-icon p1-bg"><i class="fa-solid fa-user-ninja"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label">玩家 1 (藍隊)</span>
+            <span class="stat-pill-value" id="p1-score">0</span>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- 雙人對戰資訊儀表板 (雙人模式專用) -->
-    <section class="scoreboard versus-scoreboard hidden" id="versus-scoreboard">
-      <div class="score-card p1-card">
-        <div class="score-icon"><i class="fa-solid fa-user-ninja"></i></div>
-        <div class="score-meta">
-          <span class="score-label">玩家 1 (藍隊)</span>
-          <span class="score-value" id="p1-score">0</span>
+        <div class="versus-vs-badge">
+          <i class="fa-solid fa-bolt"></i> VS
         </div>
-      </div>
-      <div class="versus-vs-badge">
-        <i class="fa-solid fa-bolt"></i> VS
-      </div>
-      <div class="score-card p2-card">
-        <div class="score-icon"><i class="fa-solid fa-user-astronaut"></i></div>
-        <div class="score-meta">
-          <span class="score-label">玩家 2 (紅隊)</span>
-          <span class="score-value" id="p2-score">0</span>
+        <div class="stat-pill p2-pill">
+          <div class="stat-pill-icon p2-bg"><i class="fa-solid fa-user-astronaut"></i></div>
+          <div class="stat-pill-meta">
+            <span class="stat-pill-label">玩家 2 (紅隊)</span>
+            <span class="stat-pill-value" id="p2-score">0</span>
+          </div>
         </div>
       </div>
     </section>

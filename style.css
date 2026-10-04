@@ -544,7 +544,7 @@ html, body {
   50% { transform: scale(1.2); opacity: 1; }
 }
 
-/* 圓形哆寶卡片主體 */
+/* 圓形塔寶卡片主體 */
 .card-wrapper {
   perspective: 1000px;
 }
@@ -1146,4 +1146,264 @@ html, body {
     width: 70px;
     height: 92px;
   }
+}
+
+/* ==========================================================================
+   自訂圖案管理器與卡牌圖片樣式 (支援 PNG / JPG / SVG)
+   ========================================================================== */
+.custom-symbol-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  border-radius: 6px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  transition: transform 0.18s ease;
+}
+
+[data-theme="dark"] .custom-symbol-img {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.45)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.8));
+}
+
+.custom-icons-card {
+  max-width: 620px;
+  width: 95%;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.4rem 1.1rem;
+  overflow-y: auto;
+}
+
+.custom-modal-header {
+  margin-bottom: 0.45rem;
+  text-align: center;
+}
+
+.custom-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--modal-text);
+}
+
+.modal-title-icon {
+  color: #818cf8;
+  font-size: 1.15rem;
+}
+
+.custom-modal-subtitle {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.custom-icons-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.75rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+[data-theme="light"] .custom-icons-notice {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.22);
+}
+
+.notice-icon {
+  font-size: 0.95rem;
+  color: #818cf8;
+  flex-shrink: 0;
+}
+
+.notice-text {
+  font-size: 0.78rem;
+  color: var(--text-main);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.upload-dropzone {
+  border: 2px dashed rgba(99, 102, 241, 0.45);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.9rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: rgba(99, 102, 241, 0.05);
+  margin-bottom: 0.55rem;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.14);
+  transform: scale(1.005);
+}
+
+.upload-dropzone .dropzone-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.dropzone-icon {
+  font-size: 1.5rem;
+  color: #6366f1;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.dropzone-text-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dropzone-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0;
+}
+
+.dropzone-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.custom-icons-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+}
+
+.custom-count-badge {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.btn-sm {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+}
+
+.btn-outline-danger {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #ef4444;
+}
+
+.btn-outline-danger:hover {
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.custom-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 0.55rem;
+  min-height: 160px;
+  max-height: 250px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0.65rem;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  margin-bottom: 0.85rem;
+}
+
+.custom-icon-thumb-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 60px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--glass-border);
+  transition: transform 0.2s ease;
+}
+
+[data-theme="light"] .custom-icon-thumb-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.custom-icon-thumb-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.custom-icon-thumb {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.custom-icon-del {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+}
+
+.custom-icon-del:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.empty-custom-tip {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  padding: 2.5rem 0.5rem;
+  font-size: 0.86rem;
+}
+
+.custom-icons-card .modal-actions {
+  margin-top: auto;
+}
+
+.custom-icons-card .btn-large {
+  padding: 0.65rem 1.8rem;
+  font-size: 0.92rem;
 }

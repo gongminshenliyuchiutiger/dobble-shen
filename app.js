@@ -1,11 +1,11 @@
 /**
  * DobbleShen - 塔寶神反應力尋寶系統
- * 遊戲主邏輯、有限射影平面生成演算法、音效合成引擎、粒子系統、吉祥物拖曳控制、明暗雙模式
+ * 遊戲主邏輯、有限射影平面生成演算法、音效合成引擎、粒子系統、吉祥物拖曳控制、明暗雙模式、自訂圖案上傳管理 (PNG/JPG/SVG)
  * 版權宣告：Copyright © Liyuchiutiger Gongminshen
  */
 
 // ==========================================================================
-// 1. Font Awesome 向量圖示庫（精選 60 款高辨識度向量圖標與專屬色彩，絕不使用一般系統 Emoji）
+// 1. Font Awesome 向量圖示庫（精選 60 款高辨識度向量圖標與專屬色彩，作為預設圖示庫）
 // ==========================================================================
 const SYMBOL_LIBRARY = [
   { id: 0, icon: 'fa-solid fa-star', name: '星星', color: '#f59e0b' },
@@ -85,7 +85,7 @@ function generateProjectivePlaneDeck(q) {
         const y = (a * x + b) % n;
         card.push(x * n + y);
       }
-      card.push(n * n + a); // 斜率對應的無窮遠點
+      card.push(n * n + a);
       cards.push(card);
     }
   }
@@ -96,7 +96,7 @@ function generateProjectivePlaneDeck(q) {
     for (let y = 0; y < n; y++) {
       card.push(c * n + y);
     }
-    card.push(n * n + n); // 垂直線無窮遠點
+    card.push(n * n + n);
     cards.push(card);
   }
 
@@ -134,7 +134,6 @@ class SoundEngine {
     return this.enabled;
   }
 
-  // 播放答對提示音
   playCorrect(combo = 1) {
     if (!this.enabled) return;
     this.init();
@@ -169,7 +168,6 @@ class SoundEngine {
     osc2.stop(now + 0.22);
   }
 
-  // 播放答錯提示音
   playWrong() {
     if (!this.enabled) return;
     this.init();
@@ -193,7 +191,6 @@ class SoundEngine {
     osc.stop(now + 0.2);
   }
 
-  // 播放按鈕點擊音
   playClick() {
     if (!this.enabled) return;
     this.init();
@@ -215,7 +212,6 @@ class SoundEngine {
     osc.stop(now + 0.06);
   }
 
-  // 遊戲獲勝通關號角
   playVictory() {
     if (!this.enabled) return;
     this.init();
@@ -336,18 +332,15 @@ class MascotController {
     if (!this.container) return;
 
     const onPointerDown = (e) => {
-      // 僅處理滑鼠主鍵或觸控
       if (e.button !== undefined && e.button !== 0) return;
 
       this.isDragging = true;
       this.container.classList.add('is-dragging');
 
-      // 取得當前容器在視窗中的絕對像素座標
       const rect = this.container.getBoundingClientRect();
       this.startX = e.clientX;
       this.startY = e.clientY;
 
-      // 切換為由 top/left 控制座標
       this.container.style.bottom = 'auto';
       this.container.style.right = 'auto';
       this.container.style.left = `${rect.left}px`;
@@ -370,7 +363,6 @@ class MascotController {
       let newLeft = this.initialLeft + deltaX;
       let newTop = this.initialTop + deltaY;
 
-      // 螢幕邊界限制防溢出
       const cWidth = this.container.offsetWidth;
       const cHeight = this.container.offsetHeight;
       const maxLeft = window.innerWidth - cWidth;
@@ -391,9 +383,7 @@ class MascotController {
       if (this.container.releasePointerCapture && e.pointerId) {
         try {
           this.container.releasePointerCapture(e.pointerId);
-        } catch (err) {
-          // 容錯忽略
-        }
+        } catch (err) {}
       }
     };
 
@@ -404,14 +394,9 @@ class MascotController {
   }
 
   initInteraction() {
-    // 雙擊吉祥物恢復至左下角預設位置
     this.container.addEventListener('dblclick', () => {
       this.resetPosition();
     });
-  }
-
-  speak() {
-    // 已依需求移除上方對話框
   }
 
   resetPosition() {
@@ -427,19 +412,20 @@ class MascotController {
 // ==========================================================================
 class DobbleGame {
   constructor() {
-    // 音效、粒子與吉祥物
     this.sound = new SoundEngine();
     this.confetti = new ConfettiEngine('confetti-canvas');
     this.mascot = new MascotController();
 
-    // 明暗主題管理
     this.currentTheme = localStorage.getItem('dobble_theme') || 'dark';
 
+    // 自訂上傳圖案庫
+    this.customIcons = this.loadCustomIcons();
+
     // 遊戲參數
-    this.order = 7; // 階數 q = 7 (每張牌 8 個圖示，經典模式)
+    this.order = 7;
     this.deck = [];
     this.currentDeckIndex = 0;
-    this.gameMode = 'timed'; // 'timed' | 'clear' | 'zen' | 'versus'
+    this.gameMode = 'timed';
     
     // 單人遊戲狀態
     this.score = 0;
@@ -470,7 +456,7 @@ class DobbleGame {
     this.isTransitioning = false;
     this.feedbackTimer = null;
 
-    // DOM 元素快取
+    // 快取 DOM 元素
     this.cacheDom();
     this.applyTheme(this.currentTheme);
     this.bindEvents();
@@ -513,6 +499,17 @@ class DobbleGame {
     this.modalTimeSpent = document.getElementById('modal-time-spent');
     this.rulesModal = document.getElementById('rules-modal');
 
+    // 自訂圖案相關 DOM
+    this.customIconsModal = document.getElementById('custom-icons-modal');
+    this.btnCustomIcons = document.getElementById('btn-custom-icons');
+    this.btnCloseCustomIcons = document.getElementById('btn-close-custom-icons');
+    this.uploadDropzone = document.getElementById('upload-dropzone');
+    this.fileInput = document.getElementById('file-input');
+    this.customCountEl = document.getElementById('custom-count');
+    this.customIconsGrid = document.getElementById('custom-icons-grid');
+    this.btnClearCustomIcons = document.getElementById('btn-clear-custom-icons');
+    this.btnApplyCustomIcons = document.getElementById('btn-apply-custom-icons');
+
     // 控制項
     this.btnThemeToggle = document.getElementById('btn-theme-toggle');
     this.btnSoundToggle = document.getElementById('btn-sound-toggle');
@@ -527,7 +524,49 @@ class DobbleGame {
   }
 
   // ========================================================================
-  // 明暗模式管理 (全面支援 Font Awesome 圖示)
+  // 自訂圖案資料持久化與資料取得
+  // ========================================================================
+  loadCustomIcons() {
+    try {
+      const saved = localStorage.getItem('dobble_custom_icons');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.warn('載入自訂圖案錯誤：', e);
+      return [];
+    }
+  }
+
+  saveCustomIcons() {
+    try {
+      localStorage.setItem('dobble_custom_icons', JSON.stringify(this.customIcons));
+    } catch (e) {
+      alert('儲存圖檔時超出瀏覽器空間限制，請適度精簡圖片數量！');
+    }
+  }
+
+  getSymbolData(symId) {
+    // 若有自訂圖案，優先使用自訂圖檔
+    if (this.customIcons && this.customIcons.length > 0) {
+      if (symId < this.customIcons.length) {
+        return {
+          isCustom: true,
+          url: this.customIcons[symId].url,
+          name: this.customIcons[symId].name || `自訂圖案 ${symId + 1}`
+        };
+      }
+    }
+    // 否則使用預設 Font Awesome 向量圖標
+    const defaultSym = SYMBOL_LIBRARY[symId % SYMBOL_LIBRARY.length];
+    return {
+      isCustom: false,
+      icon: defaultSym.icon,
+      color: defaultSym.color,
+      name: defaultSym.name
+    };
+  }
+
+  // ========================================================================
+  // 明暗模式管理
   // ========================================================================
   applyTheme(theme) {
     this.currentTheme = theme;
@@ -558,6 +597,74 @@ class DobbleGame {
       this.btnThemeToggle.addEventListener('click', () => {
         this.sound.playClick();
         this.toggleTheme();
+      });
+    }
+
+    // 自訂圖案視窗管理
+    if (this.btnCustomIcons) {
+      this.btnCustomIcons.addEventListener('click', () => {
+        this.sound.playClick();
+        this.renderCustomIconsGrid();
+        this.customIconsModal.classList.remove('hidden');
+      });
+    }
+
+    if (this.btnCloseCustomIcons) {
+      this.btnCloseCustomIcons.addEventListener('click', () => {
+        this.sound.playClick();
+        this.customIconsModal.classList.add('hidden');
+      });
+    }
+
+    // 拖曳上傳與檔案選擇
+    if (this.uploadDropzone && this.fileInput) {
+      this.uploadDropzone.addEventListener('click', () => {
+        this.fileInput.click();
+      });
+
+      this.uploadDropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        this.uploadDropzone.classList.add('dragover');
+      });
+
+      this.uploadDropzone.addEventListener('dragleave', () => {
+        this.uploadDropzone.classList.remove('dragover');
+      });
+
+      this.uploadDropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        this.uploadDropzone.classList.remove('dragover');
+        if (e.dataTransfer && e.dataTransfer.files) {
+          this.handleFilesUpload(e.dataTransfer.files);
+        }
+      });
+
+      this.fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          this.handleFilesUpload(e.target.files);
+          this.fileInput.value = '';
+        }
+      });
+    }
+
+    // 清空自訂圖案
+    if (this.btnClearCustomIcons) {
+      this.btnClearCustomIcons.addEventListener('click', () => {
+        if (confirm('確定要清空所有自訂圖案，恢復預設圖標庫嗎？')) {
+          this.sound.playClick();
+          this.customIcons = [];
+          this.saveCustomIcons();
+          this.renderCustomIconsGrid();
+        }
+      });
+    }
+
+    // 套用自訂圖案並開始新一局
+    if (this.btnApplyCustomIcons) {
+      this.btnApplyCustomIcons.addEventListener('click', () => {
+        this.sound.playClick();
+        this.customIconsModal.classList.add('hidden');
+        this.startNewGame();
       });
     }
 
@@ -597,7 +704,7 @@ class DobbleGame {
 
     // 遊戲模式切換
     this.modeButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         this.sound.playClick();
         this.modeButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -608,13 +715,130 @@ class DobbleGame {
 
     // 難度/圖案數切換
     this.difficultyButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', () => {
         this.sound.playClick();
         this.difficultyButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.order = parseInt(btn.dataset.order, 10);
         this.startNewGame();
       });
+    });
+  }
+
+  // ========================================================================
+  // 處理上傳檔案 (PNG, JPG, SVG 壓縮轉 DataURL)
+  // ========================================================================
+  async handleFilesUpload(files) {
+    const validFiles = Array.from(files).filter(file => {
+      return file.type.startsWith('image/') || file.name.endsWith('.svg');
+    });
+
+    if (validFiles.length === 0) {
+      alert('請上傳 PNG、JPG、JPEG 或 SVG 格式的圖片檔案！');
+      return;
+    }
+
+    for (const file of validFiles) {
+      try {
+        const dataUrl = await this.compressAndConvertToDataUrl(file);
+        const name = file.name.replace(/\.[^/.]+$/, '').trim() || '自訂圖案';
+        this.customIcons.push({
+          id: Date.now() + Math.random(),
+          name: name,
+          url: dataUrl
+        });
+      } catch (err) {
+        console.warn('圖片處理失敗：', file.name, err);
+      }
+    }
+
+    this.saveCustomIcons();
+    this.renderCustomIconsGrid();
+  }
+
+  // 利用 Canvas 等比縮放壓縮圖檔，兼顧清晰度與儲存空間
+  compressAndConvertToDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      // SVG 直接轉 Data URL
+      if (file.type === 'image/svg+xml' || file.name.endsWith('.svg')) {
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      // PNG / JPG 利用 Canvas 縮圖處理
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 160;
+          let w = img.width;
+          let h = img.height;
+
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/png', 0.92));
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // 渲染自訂圖案管理器網格
+  renderCustomIconsGrid() {
+    if (!this.customIconsGrid || !this.customCountEl) return;
+
+    this.customCountEl.textContent = this.customIcons.length;
+    this.customIconsGrid.innerHTML = '';
+
+    if (this.customIcons.length === 0) {
+      this.customIconsGrid.innerHTML = `
+        <div class="empty-custom-tip">
+          <i class="fa-solid fa-cloud-arrow-up"></i> 目前尚未上傳自訂圖案，卡牌全面使用預設 Font Awesome 向量圖庫。
+        </div>
+      `;
+      return;
+    }
+
+    this.customIcons.forEach((item, index) => {
+      const thumbWrap = document.createElement('div');
+      thumbWrap.className = 'custom-icon-thumb-wrapper';
+      thumbWrap.title = item.name;
+
+      thumbWrap.innerHTML = `
+        <img src="${item.url}" alt="${item.name}" class="custom-icon-thumb" />
+        <button class="custom-icon-del" data-index="${index}" title="刪除此圖案">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      `;
+
+      const delBtn = thumbWrap.querySelector('.custom-icon-del');
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.customIcons.splice(index, 1);
+        this.saveCustomIcons();
+        this.renderCustomIconsGrid();
+      });
+
+      this.customIconsGrid.appendChild(thumbWrap);
     });
   }
 
@@ -653,10 +877,8 @@ class DobbleGame {
     this.isTransitioning = false;
     this.gameOverModal.classList.add('hidden');
 
-    // 產生牌庫
     this.generateDeck();
 
-    // 重設數據
     this.score = 0;
     this.combo = 0;
     this.maxCombo = 0;
@@ -670,7 +892,6 @@ class DobbleGame {
     this.comboValueEl.textContent = '0x';
     this.loadBestScore();
 
-    // 根據模式調整 UI 佈局
     if (this.gameMode === 'versus') {
       this.arenaCards.classList.add('hidden');
       this.arenaVersus.classList.remove('hidden');
@@ -688,7 +909,7 @@ class DobbleGame {
 
       if (this.gameMode === 'timed') {
         this.timeLeft = 60;
-        this.timerLabelEl.textContent = '剩餘時間';
+        this.timerLabelEl.textContent = '時間';
         this.timerValueEl.textContent = `${this.timeLeft}s`;
         this.startTimer();
       } else if (this.gameMode === 'clear') {
@@ -705,7 +926,6 @@ class DobbleGame {
     }
   }
 
-  // 生成射影平面洗牌牌庫
   generateDeck() {
     const rawDeck = generateProjectivePlaneDeck(this.order);
     const shuffled = [...rawDeck];
@@ -717,7 +937,6 @@ class DobbleGame {
     this.currentDeckIndex = 0;
   }
 
-  // 計時器
   startTimer() {
     clearInterval(this.timerInterval);
     this.timerInterval = setInterval(() => {
@@ -738,7 +957,7 @@ class DobbleGame {
   }
 
   // ========================================================================
-  // 單人模式卡牌發牌與判定
+  // 單人模式卡牌發牌
   // ========================================================================
   dealNextSoloPair() {
     if (this.currentDeckIndex >= this.deck.length - 1) {
@@ -785,7 +1004,7 @@ class DobbleGame {
   }
 
   // ========================================================================
-  // 卡片符號渲染 (純粹使用 Font Awesome 圖標)
+  // 卡片符號渲染 (支援自訂圖片與預設 Font Awesome 雙模式)
   // ========================================================================
   renderCard(container, symbolIds, isClickable = false) {
     container.innerHTML = '';
@@ -794,7 +1013,7 @@ class DobbleGame {
     const positions = this.calculateSymbolPositions(numSymbols);
 
     shuffledSymbols.forEach((symId, index) => {
-      const symData = SYMBOL_LIBRARY[symId % SYMBOL_LIBRARY.length];
+      const symInfo = this.getSymbolData(symId);
       const pos = positions[index];
 
       const symbolEl = document.createElement('div');
@@ -807,10 +1026,16 @@ class DobbleGame {
       symbolEl.style.left = `${pos.x}%`;
       symbolEl.style.top = `${pos.y}%`;
       symbolEl.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${scale})`;
-      symbolEl.style.color = symData.color;
       symbolEl.style.fontSize = `${pos.fontSize}rem`;
+      symbolEl.style.width = `${pos.fontSize * 1.5}rem`;
+      symbolEl.style.height = `${pos.fontSize * 1.5}rem`;
 
-      symbolEl.innerHTML = `<i class="${symData.icon}"></i>`;
+      if (symInfo.isCustom) {
+        symbolEl.innerHTML = `<img src="${symInfo.url}" alt="${symInfo.name}" class="custom-symbol-img" draggable="false" />`;
+      } else {
+        symbolEl.style.color = symInfo.color;
+        symbolEl.innerHTML = `<i class="${symInfo.icon}"></i>`;
+      }
 
       if (isClickable) {
         symbolEl.addEventListener('click', (e) => {
@@ -830,7 +1055,7 @@ class DobbleGame {
     const positions = this.calculateSymbolPositions(numSymbols);
 
     shuffledSymbols.forEach((symId, index) => {
-      const symData = SYMBOL_LIBRARY[symId % SYMBOL_LIBRARY.length];
+      const symInfo = this.getSymbolData(symId);
       const pos = positions[index];
 
       const symbolEl = document.createElement('div');
@@ -843,10 +1068,16 @@ class DobbleGame {
       symbolEl.style.left = `${pos.x}%`;
       symbolEl.style.top = `${pos.y}%`;
       symbolEl.style.transform = `translate(-50%, -50%) rotate(${rotate}deg) scale(${scale})`;
-      symbolEl.style.color = symData.color;
       symbolEl.style.fontSize = `${pos.fontSize}rem`;
+      symbolEl.style.width = `${pos.fontSize * 1.5}rem`;
+      symbolEl.style.height = `${pos.fontSize * 1.5}rem`;
 
-      symbolEl.innerHTML = `<i class="${symData.icon}"></i>`;
+      if (symInfo.isCustom) {
+        symbolEl.innerHTML = `<img src="${symInfo.url}" alt="${symInfo.name}" class="custom-symbol-img" draggable="false" />`;
+      } else {
+        symbolEl.style.color = symInfo.color;
+        symbolEl.innerHTML = `<i class="${symInfo.icon}"></i>`;
+      }
 
       symbolEl.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -857,9 +1088,6 @@ class DobbleGame {
     });
   }
 
-  /**
-   * 計算圖案分佈座標，確保均勻分佈在圓形卡片內且互不嚴重重疊
-   */
   calculateSymbolPositions(n) {
     const positions = [];
 
@@ -893,7 +1121,6 @@ class DobbleGame {
         });
       }
     } else {
-      // 8 個圖示 (經典)
       positions.push({
         x: 50 + (Math.random() * 8 - 4),
         y: 50 + (Math.random() * 8 - 4),
@@ -934,12 +1161,12 @@ class DobbleGame {
       this.currentScoreEl.textContent = this.score;
       this.comboValueEl.textContent = `${this.combo}x`;
 
-      const symData = SYMBOL_LIBRARY[clickedId % SYMBOL_LIBRARY.length];
-      this.setFeedback(`<i class="fa-solid fa-circle-check"></i> 太棒了！找到【${symData.name}】！+${earned}分！`, 'success', 1.6);
+      const symInfo = this.getSymbolData(clickedId);
+      this.setFeedback(`<i class="fa-solid fa-circle-check"></i> 太棒了！找到【${symInfo.name}】！+${earned}分！`, 'success', 1.6);
 
       this.sound.playCorrect(this.combo);
 
-      // 圈起動畫：玩家牌圖示與牌庫公共牌圖示同時圈起
+      // 圈起動畫：玩家牌圖示與公共目標牌圖示同時圈起
       element.classList.add('symbol-circled');
       const targetMatchEl = this.cardTarget.querySelector(`.symbol-item[data-symbol-id="${clickedId}"]`);
       if (targetMatchEl) {
@@ -963,7 +1190,6 @@ class DobbleGame {
         }
       }
 
-      // 等待 450ms 圈起動畫讓玩家看清配對後，再流暢進入下一手牌
       setTimeout(() => {
         this.dealNextSoloPair();
         this.isTransitioning = false;
@@ -997,7 +1223,6 @@ class DobbleGame {
       this.isTransitioning = true;
       this.sound.playCorrect(3);
 
-      // 圈起動畫：玩家牌圖示與中央公共牌圖示同時圈起
       element.classList.add('symbol-circled');
       const centerMatchEl = this.cardVersusCenter.querySelector(`.symbol-item[data-symbol-id="${clickedId}"]`);
       if (centerMatchEl) {

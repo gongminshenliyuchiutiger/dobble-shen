@@ -41,6 +41,9 @@
 
       <!-- 工具選單與設定 -->
       <div class="header-controls">
+        <button id="btn-custom-icons" class="btn btn-icon" title="自訂上傳圖案 (PNG / JPG / SVG)" aria-label="自訂上傳圖案">
+          <i class="fa-solid fa-images"></i>
+        </button>
         <button id="btn-theme-toggle" class="btn btn-icon" title="切換明暗模式" aria-label="切換明暗模式">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -304,6 +307,64 @@
       <div class="modal-actions">
         <button id="btn-start-playing" class="btn btn-primary">
           <i class="fa-solid fa-check"></i> 我知道了，開始遊戲！
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 自訂圖案管理 Modal (支援 PNG、JPG、SVG) -->
+  <div class="modal-overlay hidden" id="custom-icons-modal">
+    <div class="modal-card custom-icons-card">
+      <button class="modal-close" id="btn-close-custom-icons" aria-label="關閉視窗">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="custom-modal-header">
+        <h2 class="modal-title custom-modal-title">
+          <i class="fa-solid fa-images modal-title-icon"></i> 自訂卡牌圖案
+        </h2>
+        <p class="modal-subtitle custom-modal-subtitle">
+          上傳您喜愛的圖檔（支援 PNG、JPG、SVG），打造個人專屬的塔寶卡牌！
+        </p>
+      </div>
+
+      <!-- 優先填入與補齊提示 -->
+      <div class="custom-icons-notice">
+        <i class="fa-solid fa-circle-info notice-icon"></i>
+        <p class="notice-text">
+          您上傳的圖片會優先填入卡牌成為配對符號！若上傳的圖片少於卡牌所需數量（如初級 13 種、中級 31 種、經典 57 種），系統會自動以預設圖標補齊。
+        </p>
+      </div>
+
+      <!-- 拖曳與選擇上傳區 (緊湊水平佈局) -->
+      <div class="upload-dropzone" id="upload-dropzone">
+        <input type="file" id="file-input" multiple accept="image/png, image/jpeg, image/svg+xml, image/webp" class="file-input-hidden" />
+        <div class="dropzone-content">
+          <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+          <div class="dropzone-text-group">
+            <span class="dropzone-title">點擊選擇圖片 或 將圖檔拖曳至此</span>
+            <span class="dropzone-hint">（支援 PNG、JPG、SVG，可多選）</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 圖案狀態與工具列 -->
+      <div class="custom-icons-toolbar">
+        <span class="custom-count-badge" id="custom-count-badge">
+          <i class="fa-solid fa-layer-group"></i> 已上傳自訂圖案：<strong id="custom-count">0</strong> 張
+        </span>
+        <button class="btn btn-sm btn-outline-danger" id="btn-clear-custom-icons" title="清空全部自訂圖片">
+          <i class="fa-solid fa-trash-can"></i> 清空並恢復預設
+        </button>
+      </div>
+
+      <!-- 自訂圖片預覽網格 -->
+      <div class="custom-icons-grid" id="custom-icons-grid">
+        <!-- 由 JavaScript 動態生成預覽縮圖與刪除鈕 -->
+      </div>
+
+      <div class="modal-actions">
+        <button id="btn-apply-custom-icons" class="btn btn-primary btn-large">
+          <i class="fa-solid fa-check"></i> 套用並開始遊戲
         </button>
       </div>
     </div>
